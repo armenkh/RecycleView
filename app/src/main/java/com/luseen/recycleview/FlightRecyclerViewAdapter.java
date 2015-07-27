@@ -1,12 +1,14 @@
 package com.luseen.recycleview;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -27,9 +29,10 @@ public class FlightRecyclerViewAdapter extends RecyclerView.Adapter<FlightRecycl
         this.context = context;
     }
 
+
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
         public TextView code;
@@ -45,6 +48,18 @@ public class FlightRecyclerViewAdapter extends RecyclerView.Adapter<FlightRecycl
             this.airportOfOrigin = (TextView) itemView.findViewById(R.id.airportOfOrigin);
             this.flightNo = (TextView) itemView.findViewById(R.id.flightNo);
             this.icone = (ImageView) itemView.findViewById(R.id.imageView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getLayoutPosition();
+                    Flight flight = flights.get(position);
+                    Toast.makeText(context,airportOfOrigin.getText() , Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(context, FlightActivity.class);
+                    i.putExtra("position", position);
+                    i.putExtra("flightNo", flight.getFlightNo());
+                    context.startActivity(i);
+                }
+            });
         }
     }
 
